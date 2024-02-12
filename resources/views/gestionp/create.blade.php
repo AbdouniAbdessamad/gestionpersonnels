@@ -1,14 +1,14 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Créer un gestionp') }}
         </h2>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900">
                     <section>
                         <form method="POST" action="{{ route('gestionp.store') }}" class="mt-6 space-y-6">
                             @csrf
@@ -138,7 +138,7 @@
                             </div>
                             <div>
                                 <x-input-label for="nbheuresparsemaine" :value="__('Nombre heures / semaine')" />
-                                <x-text-input id="nbheuresparsemaine" name="nbheuresparsemaine" type="text"
+                                <x-text-input id="nbheuresparsemaine" name="nbheuresparsemaine" type="number"
                                     class="mt-1 block w-full" required />
                                 <x-input-error class="mt-2" :messages="$errors->get('nbheuresparsemaine')" />
                             </div>
@@ -184,7 +184,7 @@
                                 @if (session('status') === 'gestionp-updated')
                                 <p x-data="{ show: true }" x-show="show" x-transition
                                     x-init="setTimeout(() => show = false, 2000)"
-                                    class="text-sm text-gray-600 dark:text-gray-400">{{ __('Saved.') }}</p>
+                                    class="text-sm text-gray-600">{{ __('Saved.') }}</p>
                                 @endif
                             </div>
                         </form>

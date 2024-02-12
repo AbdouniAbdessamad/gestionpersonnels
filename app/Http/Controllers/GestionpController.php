@@ -16,7 +16,7 @@ class GestionpController extends Controller
     public function index()
     {
         $gestionps=Gestionp::get();
-        return view('gestionp.index',['gestionps'=>$gestionps]);
+        return view('gestionp.index',compact('gestionps'));
     }
 
     /**
@@ -127,7 +127,13 @@ class GestionpController extends Controller
      */
     public function update(Request $request, Gestionp $gestionp)
     {
-        $request->validate([
+        $request->merge([
+            'datenaissance' => Carbon::parse($request->datenaissance)->format('Y-m-d'),
+            'age' => Carbon::parse($request->datenaissance)->diffInYears(Carbon::now()),
+        ]);
+    
+        // Validate the request data
+        $validatedData = $request->validate([
             'region' => 'required',
             'efp' => 'required',
             'annexe' => 'required',
@@ -135,28 +141,26 @@ class GestionpController extends Controller
             'nomprenom' => 'required',
             'cin' => 'required',
             'genre' => 'required',
-            'datenaissance' => Carbon::parse($request->datenaissance)->format('Y-m-d'),
-            'age' => Carbon::parse($request->datenaissance)->diffInYears(Carbon::now()),
-            'tel' => 'required',
+            'datenaissance' => 'required|date',
+            'tel' => 'numeric|required',
             'email' => 'required|email',
-            'situationfamiliale' => 'required',
-            'fonction' => 'required',
-            'statut' => 'required',
-            'ppr' => 'required',
-            'mode' => 'required',
-            'niveau' => 'required',
-            'filiere' => 'required',
-            'modules' => 'nullable',
+            'situationfamiliale' => 'required|string',
+            'fonction' => 'required|string',
+            'statut' => 'required|string',
+            'ppr' => 'required|string',
+            'mode' => 'required|string',
+            'niveau' => 'required|string',
+            'filiere' => 'required|string',
+            'modules' => 'nullable|string',
             'nbheuresparsemaine' => 'nullable|numeric',
             'daterecrutement' => 'required|date',
-            'gradeentree' => 'required',
-            'gradeactuel' => 'required',
-            'dernierdiplome' => 'required',
-            'specialite' => 'required',
-            'observations' => 'nullable',
+            'gradeentree' => 'required|string',
+            'gradeactuel' => 'required|string',
+            'dernierdiplome' => 'required|string',
+            'specialite' => 'required|string',
+            'observations' => 'nullable|string',
         ]);
     
-        // Update the gestionp instance with the validated data
         $gestionp->update([
             'region' => $request->region,
             'efp' => $request->efp,
@@ -186,7 +190,6 @@ class GestionpController extends Controller
             'observations' => $request->observations,
         ]);
     
-        // Redirect to the index page with a success message
         return redirect()->route('gestionp.index')->with('success', 'Personnel a été mis à jour!');
     }
 
