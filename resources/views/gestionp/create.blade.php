@@ -1,7 +1,11 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+<<<<<<< HEAD
             {{ __('Ajouter un personnel') }}
+=======
+            {{ __('Créer un personnel') }}
+>>>>>>> fe55088a94b9e90d6db29cf4699c904bba612836
         </h2>
     </x-slot>
 
