@@ -17,10 +17,36 @@
 
                             <div>
                                 <x-input-label for="region" :value="__('Region')" />
-                                <x-text-input id="region" name="region" type="text" class="mt-1 block w-full"
-                                    :value="old('region', $gestionp->region)" required />
+                                <select id="region" name="region" class="mt-1 block w-full" required>
+                                    <option value="" disabled>Select a region</option>
+                                    <option value="Tanger-Tétouan-Al Hoceïma" @if(old('region', $gestionp->region) ==
+                                        'Tanger-Tétouan-Al Hoceïma') selected @endif>Tanger-Tétouan-Al Hoceïma</option>
+                                    <option value="Oriental" @if(old('region', $gestionp->region) == 'Oriental')
+                                        selected @endif>Oriental</option>
+                                    <option value="Fès-Meknès" @if(old('region', $gestionp->region) == 'Fès-Meknès')
+                                        selected @endif>Fès-Meknès</option>
+                                    <option value="Rabat-Salé-Kénitra" @if(old('region', $gestionp->region) ==
+                                        'Rabat-Salé-Kénitra') selected @endif>Rabat-Salé-Kénitra</option>
+                                    <option value="Béni Mellal-Khénifra" @if(old('region', $gestionp->region) == 'Béni
+                                        Mellal-Khénifra') selected @endif>Béni Mellal-Khénifra</option>
+                                    <option value="Casablanca-Settat" @if(old('region', $gestionp->region) ==
+                                        'Casablanca-Settat') selected @endif>Casablanca-Settat</option>
+                                    <option value="Marrakech-Safi" @if(old('region', $gestionp->region) ==
+                                        'Marrakech-Safi') selected @endif>Marrakech-Safi</option>
+                                    <option value="Drâa-Tafilalet" @if(old('region', $gestionp->region) ==
+                                        'Drâa-Tafilalet') selected @endif>Drâa-Tafilalet</option>
+                                    <option value="Souss-Massa" @if(old('region', $gestionp->region) == 'Souss-Massa')
+                                        selected @endif>Souss-Massa</option>
+                                    <option value="Guelmim-Oued Noun" @if(old('region', $gestionp->region) ==
+                                        'Guelmim-Oued Noun') selected @endif>Guelmim-Oued Noun</option>
+                                    <option value="Laâyoune-Sakia El Hamra" @if(old('region', $gestionp->region) ==
+                                        'Laâyoune-Sakia El Hamra') selected @endif>Laâyoune-Sakia El Hamra</option>
+                                    <option value="Dakhla-Oued Ed-Dahab" @if(old('region', $gestionp->region) ==
+                                        'Dakhla-Oued Ed-Dahab') selected @endif>Dakhla-Oued Ed-Dahab</option>
+                                </select>
                                 <x-input-error class="mt-2" :messages="$errors->get('region')" />
                             </div>
+
 
                             <div>
                                 <x-input-label for="efp" :value="__('EFP')" />
@@ -204,8 +230,8 @@
 
                                 @if (session('status') === 'gestionp-updated')
                                 <p x-data="{ show: true }" x-show="show" x-transition
-                                    x-init="setTimeout(() => show = false, 2000)"
-                                    class="text-sm text-gray-600">{{ __('Saved.') }}</p>
+                                    x-init="setTimeout(() => show = false, 2000)" class="text-sm text-gray-600">
+                                    {{ __('Saved.') }}</p>
                                 @endif
                             </div>
                         </form>

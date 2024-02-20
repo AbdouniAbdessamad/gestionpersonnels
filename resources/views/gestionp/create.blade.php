@@ -1,11 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-<<<<<<< HEAD
             {{ __('Ajouter un personnel') }}
-=======
-            {{ __('Créer un personnel') }}
->>>>>>> fe55088a94b9e90d6db29cf4699c904bba612836
         </h2>
     </x-slot>
 
@@ -19,10 +15,24 @@
 
                             <div>
                                 <x-input-label for="region" :value="__('Region')" />
-                                <x-text-input id="region" name="region" type="text" class="mt-1 block w-full"
-                                    required />
+                                <select id="region" name="region" class="mt-1 block w-full" required>
+                                    <option value="" disabled selected>Select a region</option>
+                                    <option value="Tanger-Tétouan-Al Hoceïma">Tanger-Tétouan-Al Hoceïma</option>
+                                    <option value="Oriental">Oriental</option>
+                                    <option value="Fès-Meknès">Fès-Meknès</option>
+                                    <option value="Rabat-Salé-Kénitra">Rabat-Salé-Kénitra</option>
+                                    <option value="Béni Mellal-Khénifra">Béni Mellal-Khénifra</option>
+                                    <option value="Casablanca-Settat">Casablanca-Settat</option>
+                                    <option value="Marrakech-Safi">Marrakech-Safi</option>
+                                    <option value="Drâa-Tafilalet">Drâa-Tafilalet</option>
+                                    <option value="Souss-Massa">Souss-Massa</option>
+                                    <option value="Guelmim-Oued Noun">Guelmim-Oued Noun</option>
+                                    <option value="Laâyoune-Sakia El Hamra">Laâyoune-Sakia El Hamra</option>
+                                    <option value="Dakhla-Oued Ed-Dahab">Dakhla-Oued Ed-Dahab</option>
+                                </select>
                                 <x-input-error class="mt-2" :messages="$errors->get('region')" />
                             </div>
+
 
                             <div>
                                 <x-input-label for="efp" :value="__('EFP')" />
@@ -59,8 +69,8 @@
                             <div>
                                 <x-input-label for="genre" :value="__('Genre')" />
                                 <select id="genre" name="genre">
-                                <option value="masculin">masculin</option>
-                                <option value="feminin">feminin</option>
+                                    <option value="masculin">masculin</option>
+                                    <option value="feminin">feminin</option>
                                 </select>
                                 <x-input-error class="mt-2" :messages="$errors->get('genre')" />
                             </div>
@@ -72,11 +82,6 @@
                                 <x-input-error class="mt-2" :messages="$errors->get('datenaissance')" />
                             </div>
 
-                            <div>
-                                <x-input-label for="age" :value="__('Age')" />
-                                <x-text-input id="age" name="age" type="number" class="mt-1 block w-full" disabled />
-                                <x-input-error class="mt-2" :messages="$errors->get('age')" />
-                            </div>
 
                             <div>
                                 <x-input-label for="tel" :value="__('Téléphone')" />
@@ -167,7 +172,7 @@
                             <div>
                                 <x-input-label for="dernierdiplome" :value="__('Dernier Diplome')" />
                                 <x-text-input id="dernierdiplome" name="dernierdiplome" type="text"
-                                    class="mt-1 block w-full"  />
+                                    class="mt-1 block w-full" />
                                 <x-input-error class="mt-2" :messages="$errors->get('dernierdiplome')" />
                             </div>
                             <div>
@@ -187,8 +192,8 @@
 
                                 @if (session('status') === 'gestionp-updated')
                                 <p x-data="{ show: true }" x-show="show" x-transition
-                                    x-init="setTimeout(() => show = false, 2000)"
-                                    class="text-sm text-gray-600">{{ __('Saved.') }}</p>
+                                    x-init="setTimeout(() => show = false, 2000)" class="text-sm text-gray-600">
+                                    {{ __('Saved.') }}</p>
                                 @endif
                             </div>
                         </form>
