@@ -97,27 +97,8 @@ document.addEventListener("DOMContentLoaded", function() {
                                                                 Plus d'info
                                                             </button>
                                                         </a>
-                                                        
 
-                                                        <x-modal name="confirm-gestionp-{{$gestionp->id}}-deletion" focusable>
-                                                            <form method="post" action="{{ route('gestionp.destroy', ['gestionp' => $gestionp->id]) }}" class="p-6 text-center">
-                                                                @csrf
-                                                                @method('delete')
 
-                                                                <h2 class="text-lg font-medium text-gray-900">
-                                                                    {{ __("Confirmer la suppression du personnel") }}
-                                                                </h2>
-
-                                                                <div class="mt-6 flex justify-center">
-                                                                    <x-secondary-button x-on:click="$dispatch('close')">
-                                                                        {{ __('Cancel') }}
-                                                                    </x-secondary-button>
-                                                                    <x-danger-button class="ml-3">
-                                                                        {{ __('Delete personnel') }}
-                                                                    </x-danger-button>
-                                                                </div>
-                                                            </form>
-                                                        </x-modal>
                                                     </td>
                                                 </tr>
                                             @endforeach
