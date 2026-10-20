@@ -1,66 +1,114 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Gestion Personnels
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+**A Laravel web app for managing teaching and administrative staff records in a vocational training network (built for ISAT Meknès).**
 
-## About Laravel
+![PHP](https://img.shields.io/badge/PHP-8.0%2B-777BB4?logo=php&logoColor=white)
+![Laravel](https://img.shields.io/badge/Laravel-9-FF2D20?logo=laravel&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-4479A1?logo=mysql&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-06B6D4?logo=tailwindcss&logoColor=white)
+![Alpine.js](https://img.shields.io/badge/Alpine.js-3-8BC0D0?logo=alpinedotjs&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-4-646CFF?logo=vite&logoColor=white)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Overview
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Gestion Personnels is an HR record-keeping application (French-language UI) that replaces spreadsheet-based staff tracking with a secure web interface. Authenticated users can create, view, update and delete detailed staff files: identity, contact details, assignment (region, training establishment, annex), employment status, teaching load, career grades and qualifications. Each staff member's age is calculated automatically from their date of birth.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Key Features
 
-## Learning Laravel
+- **Authentication** with login, registration, password reset and profile management (Laravel Breeze). All staff-management pages require login.
+- **Full CRUD on staff records** through a single resource controller (`/gestionp`).
+- **Detailed staff file**, about 25 fields per person:
+  - *Assignment:* region (dropdown of Morocco's 12 regions), EFP (training establishment), annex, corps
+  - *Identity:* full name, CIN (national ID), gender, date of birth, family status
+  - *Contact:* phone, email
+  - *Employment:* function, status, PPR (civil-service staff number), employment mode, level, field of study (*filière*), modules taught, weekly teaching hours
+  - *Career:* recruitment date, entry grade, current grade, latest diploma, specialty, observations
+- **Automatic age calculation** from the date of birth (Carbon) on both create and update.
+- **Staff list** showing ID, name, CIN, gender, age, phone and email, with a client-side name filter and reset.
+- **Detail and edit views** for each record, with server-side validation and flash success messages.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Tech Stack
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+| Layer | Technology |
+|---|---|
+| Backend | PHP 8.0.2+, Laravel 9 (Eloquent ORM, Blade, resource controllers) |
+| Auth | Laravel Breeze 1 (Blade stack), Laravel Sanctum 3 |
+| Frontend | Blade templates, Tailwind CSS 3 (+ `@tailwindcss/forms`), Alpine.js 3, vanilla JS filter |
+| Build | Vite 4 with `laravel-vite-plugin` |
+| Database | MySQL (database name `gestionp` by default) |
+| Testing | PHPUnit 9 (Breeze auth and profile feature tests) |
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Project Structure
 
-## Laravel Sponsors
+```
+gestionpersonnels/
+├── app/
+│   ├── Http/Controllers/
+│   │   ├── GestionpController.php   # staff CRUD + age calculation
+│   │   ├── ProfileController.php    # user profile (Breeze)
+│   │   └── Auth/                    # Breeze authentication
+│   └── Models/
+│       ├── Gestionp.php             # staff record model
+│       └── User.php
+├── database/migrations/             # users + gestionps schema
+├── resources/views/
+│   ├── gestionp/                    # index, create, show, edit
+│   ├── dashboard.blade.php          # entry point to the staff manager
+│   └── layouts/                     # app layout + navigation
+├── public/                          # front controller, ISAT logo
+└── routes/web.php                   # auth-protected resource routes
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+The app follows a classic Laravel MVC layout: `routes/web.php` maps `/gestionp` to `GestionpController`, which validates input, computes the age and persists the `Gestionp` model, while Blade views under `resources/views/gestionp` render the list, form and detail pages.
 
-### Premium Partners
+## Database
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+| Table | Purpose | Main columns |
+|---|---|---|
+| `users` | Application accounts | `name`, `email`, `password` (Laravel default) |
+| `gestionps` | Staff records | `region`, `efp`, `annexe`, `corps`, `nomprenom`, `cin`, `genre`, `datenaissance`, `age`, `tel`, `email`, `situationfamiliale`, `fonction`, `statut`, `ppr`, `mode`, `niveau`, `filiere`, `modules`, `nbheuresparsemaine`, `daterecrutement`, `gradeentree`, `gradeactuel`, `dernierdiplome`, `specialite`, `observations` |
 
-## Contributing
+Laravel's default `password_resets`, `failed_jobs` and `personal_access_tokens` tables are also created.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Getting Started
 
-## Code of Conduct
+**Prerequisites:** PHP 8.0.2+, Composer, Node.js and npm, and a MySQL server.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+git clone https://github.com/AbdouniAbdessamad/gestionpersonnels.git
+cd gestionpersonnels
 
-## Security Vulnerabilities
+composer install
+npm install
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+cp .env.example .env
+php artisan key:generate
+```
 
-## License
+Create a MySQL database called `gestionp` (or change `DB_DATABASE` in `.env`) and set your DB credentials, then:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+php artisan migrate
+npm run build        # or `npm run dev` while developing
+php artisan serve
+```
+
+Open http://127.0.0.1:8000/register to create an account, then go to **Dashboard → Gestionnaire** to manage staff records.
+
+Run the tests with:
+
+```bash
+php artisan test
+```
+
+## Possible Improvements
+
+- **Server-side search and pagination.** The list loads every record and filters by name in the browser, which won't scale to a large staff base.
+- **Data integrity.** Make `cin`, `ppr` and `email` unique, and calculate age on the fly instead of storing it (a stored age goes stale every year).
+- **Access control.** Any registered user can manage every record; roles or policies (for example read-only vs. HR admin) and restricted registration would fit sensitive HR data better.
+- **Export & reporting.** Excel/PDF export and statistics by region, establishment or grade.
+
+## Author
+
+**Abdessamad Abdouni**, Information Systems Engineering student at SUPMTI Rabat, Morocco
+GitHub: [github.com/AbdouniAbdessamad](https://github.com/AbdouniAbdessamad)
